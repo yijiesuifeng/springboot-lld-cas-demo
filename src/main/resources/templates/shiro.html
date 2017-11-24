@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <title>shiro展示</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <script th:inline="javascript" type="text/javascript">
+        var contextRoot = /*[[@{/}]]*/'';
+        <!--${pageContext.request.contextPath}-->
+        //退出系统方法
+        function logout() {
+            location.href = contextRoot + 'logout';
+        }
+    </script>
+    <style>
+        h1 {
+            color: red;
+        }
+
+        h2 {
+            color: blue;
+        }
+
+        h3 {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<h1>shiro展示</h1>
+<h2>用户信息模块</h2>
+<shiro:principal/>
+<div>
+    <p shiro:authenticated="">欢迎光临!</p>
+    欢迎当前用户：<span th:text="${activeUser.name}"></span><br/>
+    <a th:href="@{/detail}">用户信息（json）</a>
+    <p shiro:notAuthenticated="">您还未登录，请先登录!</p>
+</div>
+<hr/>
+<h2>权限展示模块</h2>
+<shiro:hasRole name="emp">
+    <p>雇员管理-角色</p>
+</shiro:hasRole>
+<shiro:hasPermission name="emp:add">
+    <p>雇员增加-权限</p>
+</shiro:hasPermission>
+<shiro:hasPermission name="emp:edit">
+    <p>雇员编辑-权限</p>
+</shiro:hasPermission>
+
+<p><a shiro:hasRole="dept">部门管理-角色</a></p>
+<p><a shiro:hasPermission="dept:edit">部门修改-权限</a></p>
+<p><a shiro:hasPermission="dept:add">部门增加-权限</a></p>
+
+<hr/>
+<h2>退出模块</h2>
+<a th:href="@{/logout}">退出</a><br/>
+<h3>注释：若通过其他客户端退出，当前客户端不会退出，因为目前buji还不会处理通知</h3>
+</body>
+</html>
